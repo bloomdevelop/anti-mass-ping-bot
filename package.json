@@ -1,15 +1,14 @@
 {
   "name": "anti-mass-ping-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple bot that prevents from mass pinging other users by deleting messages",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Bloom Perez",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "dotenv": "^16.4.5",
     "revolt.js": "^7.0.3"
