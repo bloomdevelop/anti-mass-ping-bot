@@ -5,12 +5,14 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "sqlite3:create": "sqlite3 database.db < ./schemas/db.sql"
   },
   "author": "Bloom Perez",
   "license": "GPL-3.0-only",
   "dependencies": {
     "dotenv": "^16.4.5",
-    "revolt.js": "^7.0.3"
+    "revolt.js": "^7.0.3",
+    "sqlite3": "^5.1.7"
   }
 }
