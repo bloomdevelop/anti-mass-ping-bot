@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "sqlite3:create": "sqlite3 database.db < ./schemas/db.sql"
+    "sqlite3:create": "sqlite3 database.db < ./schemas/db.sql",
+    "podman:build": "podman build -t anti-mass-ping-bot -f Dockerfile"
   },
   "author": "Bloom Perez",
   "license": "GPL-3.0-only",

@@ -3,4 +3,11 @@ CREATE TABLE IF NOT EXISTS users (
   serverId TEXT,
   pingCount INTEGER DEFAULT 0,
   warnCount INTEGER DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS config (
+  id TEXT PRIMARY KEY,
+  serverId TEXT,
+  pingThreshold INTEGER DEFAULT 3,
+  warnThreshold INTEGER DEFAULT 3
 )
