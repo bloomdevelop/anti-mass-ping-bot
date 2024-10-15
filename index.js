@@ -135,8 +135,21 @@ client.on("messageCreate", (msg) => {
             db.get(
               `SELECT pingThreshold FROM config WHERE serverId = ?`,
               [msg.server.id],
-              (err, row) => {
-                if (newPingCount >= row.pingThreshold) {
+              (err, row2) => {
+                if (row.warnCount >= row2.warnThreshold) {
+                  msg.author.openDM().then((channel) => {
+                    channel.sendMessage({
+                      embeds: [
+                        {
+                          title: "Anti MassPing Bot",
+                          description: `Seems like you've been warned too many times. You've been kicked from the server.\nYour warnings: ${warnCount + 1}`,
+                        },
+                      ],
+                    });
+                  });
+                  msg.server.getMember(msg.author.id).kick();
+                }
+                if (newPingCount >= row2.pingThreshold) {
                   db.run(
                     `UPDATE users SET pingCount = 0, warnCount = warnCount + 1 WHERE id = ? AND serverId = ?`,
                     [msg.author.id, msg.server.id],

@@ -6,4 +6,7 @@ RUN npm install -g pnpm
 WORKDIR /app
 COPY . .
 RUN pnpm i -f
+# IMPORTANT
+# Yeah seriously, without it the bot won't work
+RUN pnpm sqlite3:create
 CMD ["pnpm", "start"]
