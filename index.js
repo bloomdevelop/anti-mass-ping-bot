@@ -45,6 +45,48 @@ client.once("ready", () => {
   });
 });
 
+client.on("serverDelete", (server) => {
+  db.run(
+    `DELETE FROM config WHERE serverId = ?; DELETE FROM users WHERE serverId = ? `,
+    [server.id, server.id],
+    (err) => {
+      if (err) {
+        console.error("Error deleting server data:", err);
+        return;
+      }
+    },
+  );
+});
+
+client.on("serverCreate", (server) => {
+  db.run(
+    `INSERT OR IGNORE INTO config (serverId, pingThreshold, warnThreshold) VALUES (?, ?, ?)`,
+    [server.id, 3, 3],
+    (err) => {
+      if (err) {
+        console.error("Error inserting config:", err);
+        return;
+      }
+    },
+  );
+
+  // Get all members on each servers, and insert them into the database
+  server
+    .fetchMembers()
+    .then((members) => {
+      members.members.forEach((member) => {
+        console.log(`Member found: ${member.user.username}`);
+        db.run(`INSERT OR IGNORE INTO users (id, serverId) VALUES (?,?)`, [
+          member.user.id,
+          server.id,
+        ]);
+      });
+    })
+    .catch((error) => {
+      console.error(`Error fetching members for server ${server.id}:`, error);
+    });
+});
+
 client.on("messageCreate", (msg) => {
   if (msg.author.bot) {
     return;
@@ -188,7 +230,7 @@ client.on("messageCreate", (msg) => {
                 } else {
                   db.run(
                     `UPDATE users SET pingCount = ? WHERE id = ? AND serverId = ?`,
-                    [newPingCount, msg.author.id, msg.server.id],
+                    [0, msg.author.id, msg.server.id],
                     (err) => {
                       if (err) {
                         console.error("Error updating pingCount:", err);
