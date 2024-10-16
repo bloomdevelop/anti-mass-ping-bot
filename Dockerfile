@@ -7,6 +7,6 @@ WORKDIR /app
 COPY . .
 RUN pnpm i -f
 # IMPORTANT
-# Yeah seriously, without it the bot won't work
+# Yeah seriously, without this command the bot won't work
 RUN pnpm sqlite3:create
 CMD ["pnpm", "start"]
